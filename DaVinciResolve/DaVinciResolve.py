@@ -3,6 +3,7 @@ from FranticX.Processes import *
 from Deadline.Plugins import *
 from Deadline.Scripting import *
 from System.IO import *
+import sys
 
 RESOLVE_PROCESS_NAME = "DaVinci Resolve Process"
 FUSCRIPT_PROCESS_NAME = "FuScript Process"
@@ -20,6 +21,8 @@ def CleanupDeadlinePlugin(deadlinePlugin):
 
 class DaVinciResolvePlugin(DeadlinePlugin):
     def __init__(self):
+        if sys.version_info.major == 3:
+            super().__init__()
         self.InitializeProcessCallback += self.InitializeProcess
         self.StartJobCallback += self.StartJob
         self.RenderTasksCallback += self.RenderTasks
@@ -80,6 +83,7 @@ class DaVinciResolvePlugin(DeadlinePlugin):
 
 class ResolveProcess(ManagedProcess):
     def __init__(self, deadline_plugin):
+        super().__init__()
         self.deadline_plugin = deadline_plugin
         self.RenderExecutableCallback += self.RenderExecutable
         self.InitializeProcessCallback += self.InitializeProcess
@@ -112,6 +116,7 @@ class ResolveProcess(ManagedProcess):
 
 class FuScriptProcess(ManagedProcess):
     def __init__(self, deadline_plugin):
+        super().__init__()
         self.deadline_plugin = deadline_plugin
         self.RenderExecutableCallback += self.RenderExecutable
         self.InitializeProcessCallback += self.InitializeProcess
